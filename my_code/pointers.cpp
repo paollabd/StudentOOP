@@ -25,6 +25,7 @@ void inc_with_reference(int& n) {
 
 
 Thing** create_array_of_things(int n) {
+	// new -> allocates new heap memory
     Thing** thing_arr = new Thing*[n];
 	for (int i = 0; i < n; i++) {
 		thing_arr[i] = new Thing(i);
@@ -43,10 +44,12 @@ void double_all_things(Thing** things, int n) {
 	for (int i = 0; i < n; i++) {
 		things[i]->val *= 2;
 	}
+	cout << endl;
 }
 
 void delete_all_things(Thing** things, int n) {
-	//cout << "deleted" << endl;
+	// cout << "deleted" << endl;
+	// delete -> frees heap memory
 	for (int i = 0; i < n; i++) {
 		delete things[i];
 	}
@@ -54,8 +57,24 @@ void delete_all_things(Thing** things, int n) {
 }
 
 
-// void assignTA(Student& s, Student& ta) {
-// }
+void assignTA(Student* s, Student* ta) {
+	// uses pointer syntax to point to the ta field
+	s->ta = ta;
+}
 
-// void printTAs(vector<Student> students) {
-// }
+void printTAs(vector<Student*>& students) {
+	// uses vector of student pointers
+	// ta is a pointer to a student
+	// student is a pointer to a ta
+	for (Student* student : students){
+		// if pointer is null, they don't have a ta
+		if (student->ta == nullptr) {
+			cout << student->name << " does not have a TA." << endl;
+		}
+		// if pointer is not null, they have a ta
+		else{
+			cout << student-> name << " has TA " << student->ta->name << endl;
+		}
+	}
+	cout << endl;
+}
