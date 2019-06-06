@@ -12,6 +12,25 @@ struct GPS {
 
 std::ostream& operator<<(std::ostream& os, const GPS& gps);
 
+
+// // Date class
+// class Date {
+// 	friend std::ostream& operator<<(std::ostream& os, const Date& date);
+//  // a class is private by default, so we have to make it public
+//  public:
+// 	Date(int d, int m, int y);
+//  private:
+//  	int day;
+//  	int month;
+//  	int year;
+// };
+
+// // Weather Reading class
+// class WReading {
+//  private: 
+// 	Date date;
+// };
+
 const int UNRATED = -1;
 const int BAD = 0;
 const int OK = 1;
