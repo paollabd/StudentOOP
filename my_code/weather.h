@@ -2,6 +2,8 @@
 #define WEATHER_H
 
 #include <string>
+#include <vector>
+#include "date.h"
 
 struct GPS {
     double latitude;
@@ -11,7 +13,6 @@ struct GPS {
 };
 
 std::ostream& operator<<(std::ostream& os, const GPS& gps);
-
 
 // // Date class
 // class Date {
@@ -25,11 +26,21 @@ std::ostream& operator<<(std::ostream& os, const GPS& gps);
 //  	int year;
 // };
 
-// // Weather Reading class
-// class WReading {
-//  private: 
-// 	Date date;
-// };
+// Weather Reading class
+class WReading {
+	friend std::ostream& operator<<(std::ostream& os, const WReading& wr);
+ public:
+ 	WReading(Date dt, double temp, double hum, double ws) :
+	date(dt), temperature(temp), humidity(hum), windspeed(ws)
+	{
+	}
+
+ private: 
+	Date date;
+	double temperature; // stored temp in C
+	double humidity;
+	double windspeed;
+};
 
 const int UNRATED = -1;
 const int BAD = 0;
@@ -48,13 +59,16 @@ class Weather {
     std::string get_name() const;
     int get_rating() const; // const here means that the method doesn't change the object
     void set_rating(int new_rating);
+    void add_reading(WReading wr); // linker error because we have a declaration but not a definition
  // private attributes
  private:
+ 	std::vector<WReading> wreadings; // by default we get an empty vector
  	// in general, we want to keep data private
     std::string station_nm;
     GPS my_loc;
     int rating = UNRATED;
 };
+
 
 
 #endif

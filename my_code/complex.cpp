@@ -6,7 +6,8 @@
 using namespace std;
 
 bool operator== (const Complex& c1, const Complex& c2) {
-    return ((c1.real == c2.real) && (c1.imag == c2.imag));
+    // return abs(c1.get_real() - c2.get_real()) < .0001 && abs(c1.get_imag() - c2.get_imag()) < .0001
+    return true; // temp!
 }
 
 ostream& operator<< (ostream& os, const Complex& c) {
@@ -16,11 +17,14 @@ ostream& operator<< (ostream& os, const Complex& c) {
      * number of decimal places, while `showpos` turns on the plus
      * sign for positive numbers.
      * */
-    os << setprecision(10) << c.real << showpos
-         << c.imag << "i" << noshowpos << endl;
+    os << setprecision(2) << showpos << c.real << ", " << c.imag;
     return os;
 }
 
+// all of these functions return a Complex number
+
+// CONSTRUCTOR
+Complex::Complex(double real, double imag) : real(real), imag(imag) {}
 
 /*
  * Read a `Complex` number from an input stream.
@@ -30,29 +34,39 @@ istream& operator>> (istream& is, Complex& c) {
     return is;
 }
 
-
-Complex::Complex(double real, double imag)
-            : real{real}, imag{imag} {}
-
-
 Complex::operator bool() const {
     return ((real != 0) || (imag != 0));
 }
 
+// PREINCREMENT
 Complex& Complex::operator++() {
     ++real;
-    return (*this);
+    return *this;
 }
 
+// POSTINCREMENT
+// dummy --> means we are doing postincrement
 Complex Complex::operator++(int dummy) {
-    Complex temp(*this);
-    real++;
+    Complex temp = *this;
+    ++real;
     return temp;
 }
 
-Complex Complex::operator+(const Complex& c) {
-    Complex sum{real + c.real, imag + c.imag};
-    return sum;
+Complex& Complex::operator--() {
+    --real;
+    return *this;
+}
+
+Complex Complex::operator--(int dummy) {
+    Complex temp = *this;
+    --real;
+    return temp;
+}
+
+Complex Complex::operator-=(const Complex& c){
+    real -= c.real;
+    imag -= c.imag;
+    return *this;
 }
 
 double Complex::get_real() const {
@@ -61,4 +75,19 @@ double Complex::get_real() const {
 
 double Complex::get_imag() const {
     return imag;
+}
+
+Complex Complex::operator*(const int i) {
+    Complex prod(real * 2, imag * 2);
+    return prod;
+}
+
+Complex operator+(const Complex& c1, const Complex& c2){
+    Complex result{c1.get_real() + c2.get_real(), c1.get_imag() + c2.get_imag()};
+    return result;
+}
+
+Complex operator-(const Complex& c1, const Complex& c2){
+    Complex result{c1.get_real() - c2.get_real(), c1.get_imag() - c2.get_imag()};
+    return result;
 }
