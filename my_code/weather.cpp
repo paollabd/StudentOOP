@@ -56,27 +56,6 @@ ostream& operator<<(ostream& os, const Weather& w) {
 	return os;
 }
 
-// /*
-//  * Date class
-// */
-// Date::Date(int d, int m, int y) {
-// 	if ((d < 1) || (d > 31)) throw(d); // throw break out
-// 	if ((m < 1) || (m > 12)) throw(m);
-// 	if ((y < 1800) || (y > 2200)) throw(y);
-
-// 	day = d;
-// 	month = m;
-// 	year = y;
-// }
-
-// /*
-//  * output Date code
-// */
-// ostream& operator<<(ostream& os, const Date& date){
-// 	os << date.month << "/" << date.day << "/" << date.year;
-// 	return os;
-// }
-
 /*
  * output GPS code
 */
@@ -95,21 +74,24 @@ ostream& operator<<(ostream& os, const WReading& wr){
 	return os;
 }
 
+
+// CELSIUS TO FARENHEIT
+
 // constant varibales are usually uppercase in C++
-// const double F_TO_C = 5/9;
-// const double C_TO_F = 9/5;
+const double F_TO_C = 5/9;
+const double C_TO_F = 9/5;
 
 
-// double WReading::get_tempF()
-// {
-// 	// return (tempC * (9/5)) + 32;
-// 	return (temperature * C_TO_F) + 32;
-// }
+double WReading::get_tempF()
+{
+	return (temperature * (9/5)) + 32;
+	// return (temperature * C_TO_F) + 32;
+}
 
-// double WReading::get_tempC()
-// {
-// 	return (temperature - 32) * 5/9;
-// }
+double WReading::get_tempC()
+{
+	return (temperature - 32) * F_TO_C;
+}
 
 // double WReading::get_heat_index(double T, double H)
 // {
@@ -121,3 +103,63 @@ ostream& operator<<(ostream& os, const WReading& wr){
 // 	return 35.74 + (0.6215*T) - (35.75*(pow(V, 0.16))) + (0.4275*T*(pow(V, 0.16)));
 // }
 
+
+/*
+ * IMAGE CLASS
+ */
+
+Image::Image(int w, int h, std::string flnm)
+	: width(w), height(h), filename(flnm) 
+	{
+		filename = flnm;
+		image_buf = new char[image_sz()];
+	}
+
+// Copy Contructor: (copies img reference)
+Image::Image(const Image& img2)
+{
+	copy_fields(img2);
+}
+
+// Destructor
+Image::~Image()
+{
+	if (image_buf != nullptr) delete image_buf; //guaranteed not to be a valid pointer
+}
+
+// Assignment Operator
+Image& Image::operator=(const Image& img2)
+{
+	if (&img2 != this)
+	{
+		if (image_buf != nullptr) delete image_buf;
+		copy_fields(img2);
+	}
+	return *this;
+}
+
+int Image::image_sz()
+{
+	return width * height;
+}
+
+void Image::copy_fields(const Image& img2)
+{
+	height = img2.height;
+	width = img2.width;
+	filename = img2.filename;
+	image_buf = new char[image_sz()];
+	for (int i = 0; i < image_sz(); i++)
+	{
+		image_buf[i] = img2.image_buf[i];
+	}
+}
+
+/*
+ * Setting 'display() = 0' here makes this an abstract 
+ * class that can't be implemented 
+*/
+std::string display(std::string s)
+{
+	return "Displaying image " + s;
+}
