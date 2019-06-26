@@ -57,6 +57,4 @@ int main() {
         assert(sv[i] == "Hello");
     }
     print_vector(sv);
-    /*
-    */
 }
