@@ -38,9 +38,7 @@ int main() {
 
     v2 = v3;
     assert(v2 == v3);
-    cout << "Vector 2: ";
     print_vector(v2);
-    cout << "Vector 3: ";
     print_vector(v3);
 
     // for (int i : v3) {
