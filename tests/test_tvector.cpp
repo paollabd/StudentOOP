@@ -48,7 +48,6 @@ int main() {
     // }
 
     for (int i = 0; i < v3.size(); i++) {
-        // cout << v3[i] << " " << boolalpha <<(v3[i] % 9) == 0;
         assert((v3[i] % 9) == 0);
     }
 
